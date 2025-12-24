@@ -365,8 +365,7 @@ box-shadow:
 .window{
   position:relative;
   background:
-    var(--cassette-bg)
-    center/cover no-repeat;
+    url("me.gif") center/cover no-repeat;
   border-radius:10px;
   padding:14px 18px;
   box-shadow:inset 0 0 18px rgba(0,0,0,.8);
@@ -785,30 +784,6 @@ input{
 </div>
 
     <div id="playlists"></div>
-    
-<div class="style-picker">
-<div class="style-title" onclick="toggleStylePicker()">
-  set your mood. ▾
-</div>
-
-  <div class="style-list">
-    <button class="style-btn" onclick="setStyle(0)">
-      <img src="scenery.gif">
-    </button>
-
-    <button class="style-btn" onclick="setStyle(1)">
-      <img src="time.gif">
-    </button>
-
-    <button class="style-btn" onclick="setStyle(2)">
-      <img src="download.gif">
-    </button>
-
-    <button class="style-btn" onclick="setStyle(3)">
-      <img src="vaporwave.gif">
-    </button>
-  </div>
-</div>
 
 </div>
 
@@ -1086,45 +1061,6 @@ function shuffle(){
   togglePlay()
 }
 
-/* ===== CASSETTE STYLE PICKER ===== */
-const styles = [
-  "url('scenery.gif')",
-  "url('time.gif')",
-  "url('download.gif')",
-  "url('vaporwave.gif')"
-]
-
-let currentStyle = Number(
-  localStorage.getItem("cassetteStyle") || 0
-)
-
-function applyStyle(){
-  document
-    .querySelector(".window")
-    .style
-    .setProperty("--cassette-bg", styles[currentStyle])
-
-  document
-    .querySelectorAll(".style-btn")
-    .forEach((b,i)=>{
-      b.classList.toggle("active", i===currentStyle)
-    })
-}
-
-function setStyle(i){
-  currentStyle = i
-  localStorage.setItem("cassetteStyle", i)
-  applyStyle()
-}
-  function toggleStylePicker(){
-  document
-    .querySelector(".style-picker")
-    .classList
-    .toggle("open")
-}
-
-applyStyle()
-
   /* ===== TAPE PROGRESS LOGIC ===== */
 function startProgress(){
   stopProgress()
@@ -1185,6 +1121,7 @@ function stopProgress(){
 
 </body>
 </html>
+
 
 
 
