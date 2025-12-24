@@ -996,6 +996,8 @@ function playSong(p, s){
   nowPlayingText.textContent =
     data[p].songs[s].title
 
+  render() // 🔥 INI KUNCI
+
   if(isPlaying){
     ytPlayer.stopVideo()
     isPlaying = false
@@ -1061,7 +1063,8 @@ function next(){
   tapeBar.style.width="0%"
   current.s=(current.s+1)%data[current.p].songs.length
   loadedId=null
-  updateNowPlaying()   // 🎵 TAMBAH INI
+  updateNowPlaying()
+  render() // 🔥 TAMBAH
   togglePlay()
 }
 function prev(){
@@ -1069,7 +1072,8 @@ function prev(){
   tapeBar.style.width="0%"
   current.s=Math.max(0,current.s-1)
   loadedId=null
-  updateNowPlaying()   // 🎵 TAMBAH INI
+  updateNowPlaying()
+  render() // 🔥 TAMBAH
   togglePlay()
 }
 function shuffle(){
@@ -1077,7 +1081,8 @@ function shuffle(){
   tapeBar.style.width="0%"
   current.s=Math.floor(Math.random()*data[current.p].songs.length)
   loadedId=null
-  updateNowPlaying()   // 🎵 TAMBAH INI
+  updateNowPlaying()
+  render() // 🔥 TAMBAH
   togglePlay()
 }
 
@@ -1180,6 +1185,7 @@ function stopProgress(){
 
 </body>
 </html>
+
 
 
 
