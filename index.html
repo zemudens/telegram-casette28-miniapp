@@ -989,11 +989,18 @@ function togglePlay(){
   }
 }
 
-function playSong(p,s){
+function playSong(p, s){
   current = { p, s }
   loadedId = null
 
-  nowPlayingText.textContent = data[p].songs[s].title
+  nowPlayingText.textContent =
+    data[p].songs[s].title
+
+  if(isPlaying){
+    ytPlayer.stopVideo()
+    isPlaying = false
+  }
+
   togglePlay()
 }
 function render(){
@@ -1011,9 +1018,9 @@ function render(){
 }
     const box=document.createElement("div")
 box.className =
-  "folder" + ((pl.open || searching) ? " open" : "")
+  "folder" + (pl.open ? " open" : "")
     box.innerHTML=`
-<div class="folder-header" onclick="toggleFolder(${pi})">
+<div class="folder-header" onclick="event.stopPropagation(); toggleFolder(${pi})">
   <span>${pl.name}</span>
 </div>
 <div class="songs"></div>
@@ -1027,10 +1034,13 @@ pl.songs.forEach((s,si)=>{
   const isActive =
     current.p === pi && current.s === si
 
-  const row = document.createElement("div")
-  row.className = "song" + (isActive ? " active" : "")
- row.innerHTML = `
-  <span onclick="playSong(${pi},${si})">${s.title}</span>
+const row = document.createElement("div")
+row.className = "song" + (isActive ? " active" : "")
+
+row.onclick = () => playSong(pi, si)
+
+row.innerHTML = `
+  <span>${s.title}</span>
 `
 
   list.appendChild(row)
@@ -1170,6 +1180,7 @@ function stopProgress(){
 
 </body>
 </html>
+
 
 
 
