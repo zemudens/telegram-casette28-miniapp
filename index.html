@@ -814,11 +814,6 @@ input{
     placeholder="Search in all tapes…"
   >
 </div>
-    
-    <div class="input">
-      <input id="ytInput" placeholder="Paste a memory…">
-      <button onclick="addSong()">＋</button>
-    </div>
 
 <!-- 🎵 1️⃣ NOW PLAYING -->
 <div class="now-playing marquee" id="nowPlayingText">
@@ -903,8 +898,37 @@ function onYouTubeIframeAPIReady(){
   })
 }
 
-let data=[
-  {name:"My Playlist",songs:[],open:true}
+let data = [
+  {
+    name: "My Playlist",
+    open: true,
+    songs: [
+      {
+        title: "Lover's Moon",
+        url: "https://www.youtube.com/watch?v=VIDEOID1"
+      },
+      {
+        title: "Slow Dancing in Memory",
+        url: "https://www.youtube.com/watch?v=VIDEOID2"
+      },
+      {
+        title: "Midnight Tape",
+        url: "https://www.youtube.com/watch?v=VIDEOID3"
+      },
+      {
+        title: "Side A Forever",
+        url: "https://www.youtube.com/watch?v=VIDEOID4"
+      },
+      {
+        title: "Soft Static Love",
+        url: "https://www.youtube.com/watch?v=VIDEOID5"
+      },
+      {
+        title: "Last Rewind",
+        url: "https://www.youtube.com/watch?v=VIDEOID6"
+      }
+    ]
+  }
 ]
 
 async function loadPlaylist(){
@@ -1118,23 +1142,6 @@ pl.songs.forEach((s,si)=>{
 render()
 
 function toggleFolder(i){data[i].open=!data[i].open;save();render()}
-async function addSong(){
-  const u = ytInput.value.trim()
-  if(!u) return
-
-  cassette.classList.add("inserting")
-
-  const title = await fetchTitle(u)
-  data[current.p].songs.push({url:u,title})
-  ytInput.value=""
-
-  save()
-  render()
-
-  setTimeout(()=>{
-    cassette.classList.remove("inserting")
-  },800)
-}
 function addPlaylist(){data.push({name:"New Playlist",songs:[],open:true});save();render()}
 function renamePlaylist(i){const n=prompt("Rename playlist",data[i].name);if(n){data[i].name=n;save();render()}}
 function deletePlaylist(i){if(!confirm("Delete playlist?"))return;data.splice(i,1);current={p:0,s:0};save();render()}
@@ -1296,4 +1303,5 @@ function toggleLove(){
 
 </body>
 </html>
+
 
