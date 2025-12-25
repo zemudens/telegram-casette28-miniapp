@@ -709,53 +709,6 @@ input{
   </div>
 </div>
 
-    <!-- 🔍 SEARCH BAR -->
-<div class="search-wrap" id="searchWrap">
-  <input
-    id="searchInput"
-    placeholder="Search in all tapes…"
-  >
-</div>
-
-<!-- 🎵 1️⃣ NOW PLAYING -->
-<div class="now-playing marquee" id="nowPlayingText">
-  <span>—</span>
-</div>
-
-<!-- 🎚️ 2️⃣ PROGRESS BAR -->
-<div class="tape-progress">
-  <div class="tape-bar" id="tapeBar"></div>
-</div>
-
-<!-- 🎛️ 3️⃣ MENU / CONTROLS -->
-<div class="controls">
-  <button class="icon-btn" onclick="toggleSearch()">
-    <img src="search.png">
-  </button>
-
-  <button class="icon-btn" onclick="prev()">
-    <img src="back.png">
-  </button>
-
-  <button class="icon-btn" id="playBtn" onclick="togglePlay()">
-    <img src="play.png">
-  </button>
-
-  <button class="icon-btn" onclick="next()">
-    <img src="next.png">
-  </button>
-
-  <button class="icon-btn" onclick="shuffle()">
-    <img src="shuffle.png">
-  </button>
-</div>
-
-    <div id="playlists"></div>
-
-</div>
-
-<div id="player"></div>
-
 <script>
 let ytPlayer=null
 function onYouTubeIframeAPIReady(){
@@ -963,12 +916,18 @@ function render(){
     const box=document.createElement("div")
 box.className =
   "folder" + (pl.open ? " open" : "")
-    box.innerHTML=`
-<div class="folder-header" onclick="event.stopPropagation(); toggleFolder(${pi})">
-  <span>${pl.name}</span>
-</div>
-<div class="songs"></div>
-    `
+box.innerHTML = `
+  <div class="folder-header">
+    <span>${pl.name}</span>
+  </div>
+  <div class="songs"></div>
+`
+
+const header = box.querySelector(".folder-header")
+header.onclick = (e) => {
+  e.stopPropagation()
+  toggleFolder(pi)
+}
 
     const list=box.querySelector(".songs")
 
@@ -981,7 +940,10 @@ pl.songs.forEach((s,si)=>{
 const row = document.createElement("div")
 row.className = "song" + (isActive ? " active" : "")
 
-row.onclick = () => playSong(pi, si)
+row.onclick = (e) => {
+  e.stopPropagation()
+  playSong(pi, si)
+}
 
 row.innerHTML = `
   <span>${s.title}</span>
@@ -1088,6 +1050,7 @@ function stopProgress(){
 
 </body>
 </html>
+
 
 
 
