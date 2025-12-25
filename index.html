@@ -950,6 +950,7 @@ const row = document.createElement("div")
 row.className = "song" + (isActive ? " active" : "")
 
 row.onclick = (e) => {
+  e.preventDefault()
   e.stopPropagation()
   playSong(pi, si)
 }
@@ -967,10 +968,13 @@ row.innerHTML = `
 render()
 loadPlaylist()  
 
-function toggleFolder(i){data[i].open=!data[i].open;save();render()}
-function updateNowPlaying(){
-  const song = data[current.p]?.songs[current.s]
-  nowPlayingText.textContent = song ? song.title : "—"
+function toggleFolder(i){
+  data[i].open = !data[i].open
+  save()
+
+  // update DOM TANPA rebuild total
+  const folders = document.querySelectorAll(".folder")
+  folders[i]?.classList.toggle("open", data[i].open)
 }
 function next(){
   if(!data[current.p].songs.length)return
@@ -1060,6 +1064,7 @@ function stopProgress(){
 
 </body>
 </html>
+
 
 
 
