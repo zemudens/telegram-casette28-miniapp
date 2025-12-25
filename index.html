@@ -598,10 +598,24 @@ input{
 
 .love-letter{
   width:300px;
-  background:linear-gradient(180deg,#fff,#f3ece6);
+
+  /* 🌫 semi transparent romantic glass */
+  background:linear-gradient(
+    180deg,
+    rgba(255,255,255,.78),
+    rgba(243,236,230,.72)
+  );
+
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
   border-radius:24px;
   padding:22px;
-  box-shadow:0 30px 80px rgba(0,0,0,.35);
+
+  box-shadow:
+    0 30px 80px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.5);
+
   transform:translateY(30px) scale(.96);
   transition:.45s cubic-bezier(.22,1,.36,1);
   text-align:center;
@@ -621,7 +635,7 @@ input{
 .love-letter p{
   font-size:13px;
   line-height:1.6;
-  opacity:.85;
+  opacity:.82;
 }
 
 </style>
@@ -1058,6 +1072,7 @@ function toggleLove(){
 
 </body>
 </html>
+
 
 
 
