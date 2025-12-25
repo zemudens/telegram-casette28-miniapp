@@ -480,6 +480,20 @@ input{
   letter-spacing:.06em;
   transition:opacity .25s ease;
 }
+  .lyrics{
+  text-align:center;
+  font-size:12px;
+  line-height:1.6;
+  font-style:italic;
+  opacity:.65;
+  margin:4px 18px 10px;
+  transition:opacity .3s ease, transform .3s ease;
+}
+
+.cassette.playing ~ .panel .lyrics{
+  opacity:.85;
+  transform:translateY(0);
+}
 
   /* ===== TAPE PROGRESS BAR ===== */
 .tape-progress{
@@ -696,6 +710,10 @@ input{
       <span>—</span>
     </div>
 
+    <div class="lyrics" id="lyricsText">
+  <em>—</em>
+</div>
+
     <!-- PROGRESS -->
     <div class="tape-progress">
       <div class="tape-bar" id="tapeBar"></div>
@@ -746,37 +764,56 @@ let data = [
     name: "My Playlist",
     open: true,
     songs: [
-      {
-        title: "U(You)",
-        url: "https://youtu.be/w68Tbwr_0ac?si=4GvPfnt6b6BAZPT-"
-      },
-      {
-        title: "Better With YOu",
-        url: "https://youtu.be/2weUlqvSYH4?si=MKlpsb8xK816iXqh"
-      },
-      {
-        title: "My Happy Place",
-        url: "https://youtu.be/uVTLsvMWylE?si=nmS1o9RPr6EvYzZM"
-      },
-      {
-        title: "Unware",
-        url: "https://youtu.be/fXnA70TljvQ?si=L3ivbWGb_maoRo_H"
-      },
-      {
-        title: "Hello",
-        url: "https://youtu.be/kLaanI_2IBw?si=9bdNn0MWvjmMAKZn"
-      },
-      {
-        title: "Serendipity",
-        url: "https://youtu.be/qtdU5lNvVZc?si=gb-AjpJY2vrHCPJF"
-      },
-      {
-        title: "Dim The Lights",
-        url: "https://youtu.be/4kXswY2B__8?si=ewoPcvrdOnKtHkkV"
-      }
+  {
+    title: "U(You)",
+    url: "https://youtu.be/w68Tbwr_0ac?si=4GvPfnt6b6BAZPT-",
+    lyric: `Thank you for coming and saving me.
+Thank you for choosing me and loving me.
+Let's dance together until we can't breathe anymore.`
+  },
+  {
+    title: "Better With You",
+    url: "https://youtu.be/2weUlqvSYH4?si=MKlpsb8xK816iXqh",
+    lyric: `Here is my home, where you belong.
+We can do anything and everything,
+cause I'm better with you.`
+  },
+  {
+    title: "My Happy Place",
+    url: "https://youtu.be/uVTLsvMWylE?si=nmS1o9RPr6EvYzZM",
+    lyric: `In this love we'll always shine.
+Forever and always, you'll be mine.`
+  },
+  {
+    title: "Unware",
+    url: "https://youtu.be/fXnA70TljvQ?si=L3ivbWGb_maoRo_H",
+    lyric: `Simply talking under the moonlight,
+stay up till sunrise,
+there's nothing I need more than you.`
+  },
+  {
+    title: "Hello",
+    url: "https://youtu.be/kLaanI_2IBw?si=9bdNn0MWvjmMAKZn",
+    lyric: `I won't ever forget the day that we met,
+the moment that you said "hello".`
+  },
+  {
+    title: "Serendipity",
+    url: "https://youtu.be/qtdU5lNvVZc?si=gb-AjpJY2vrHCPJF",
+    lyric: `It's God who put us here,
+cause He had a plan.
+Just trust in us and let me be your man.`
+  },
+{
+  title: "Dim The Lights",
+  url: "https://youtu.be/4kXswY2B__8?si=ewoPcvrdOnKtHkkV",
+  lyric: `Can we break all the rules tonight?
+You brought me back to life.`
+}
     ]
   }
 ]
+
 
 async function loadPlaylist(){
   const cloudData = await loadFromCloud()
@@ -785,6 +822,7 @@ async function loadPlaylist(){
     render()
   }
 }
+
   
 let current={p:0,s:0}
 let loadedId=null,isPlaying=false
@@ -805,12 +843,18 @@ searchInput.addEventListener("input", () => {
 })
 const nowPlayingText = document.getElementById("nowPlayingText")
 
-  function updateNowPlaying(){
+function updateNowPlaying(){
   const song = data[current.p]?.songs[current.s]
+  const lyricEl = document.getElementById("lyricsText")
+
   if(song){
     nowPlayingText.textContent = song.title
+    lyricEl.innerHTML = song.lyric
+      ? `“${song.lyric}”`
+      : "<em>—</em>"
   }else{
     nowPlayingText.textContent = "—"
+    lyricEl.innerHTML = "<em>—</em>"
   }
 }
 
@@ -873,6 +917,7 @@ async function fetchTitle(url){
 }
 
 function loadVideo(id){
+  updateNowPlaying() // 🔥 TAMBAH INI
   ytPlayer.loadVideoById(id)
   loadedId=id
   isPlaying=true
@@ -1099,6 +1144,7 @@ function stopProgress(){
 
 </body>
 </html>
+
 
 
 
