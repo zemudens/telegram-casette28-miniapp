@@ -138,6 +138,25 @@ box-shadow:
   pointer-events:none;
 }
 
+    /* ❤️ HEARTBEAT ANIMATION */
+@keyframes heartBeat {
+  0%   { transform:scale(1); }
+  14%  { transform:scale(1.18); }
+  28%  { transform:scale(1); }
+  42%  { transform:scale(1.12); }
+  70%  { transform:scale(1); }
+  100% { transform:scale(1); }
+}
+
+/* ❤️ HEARTBEAT FIX (PASTI GERAK) */
+.icon-btn.love{
+  animation: heartBeat 2.2s ease-in-out infinite;
+}
+
+.icon-btn.love.active{
+  animation: heartBeat 1.2s ease-in-out infinite;
+}
+
   /* 🔁 PLAY BUTTON PULSE */
 .icon-btn.playing{
   animation:btnPulse 1.6s ease-in-out infinite;
@@ -605,27 +624,6 @@ input{
   opacity:.85;
 }
 
-  /* ❤️ HEARTBEAT ANIMATION */
-@keyframes heartBeat {
-  0%   { transform:scale(1); }
-  14%  { transform:scale(1.18); }
-  28%  { transform:scale(1); }
-  42%  { transform:scale(1.12); }
-  70%  { transform:scale(1); }
-  100% { transform:scale(1); }
-}
-
-/* idle heartbeat */
-.icon-btn.love img{
-  animation: heartBeat 2.2s ease-in-out infinite;
-  transform-origin:center;
-}
-
-/* stronger heartbeat when active */
-.icon-btn.love.active img{
-  animation: heartBeat 1.2s ease-in-out infinite;
-}
-
 </style>
 </head>
 
@@ -678,13 +676,14 @@ input{
 
     <!-- CONTROLS -->
 <div class="controls">
+  <button class="icon-btn love" onclick="toggleLove()">
+    <img src="love.png">
+  </button>
+
   <button class="icon-btn" onclick="prev()"><img src="back.png"></button>
   <button class="icon-btn" id="playBtn" onclick="togglePlay()"><img src="play.png"></button>
   <button class="icon-btn" onclick="next()"><img src="next.png"></button>
   <button class="icon-btn" onclick="shuffle()"><img src="shuffle.png"></button>
-<button class="icon-btn love" onclick="toggleLove()">
-  <img src="love.png">
-</button>
 </div>
 
     <!-- PLAYLIST -->
@@ -1058,6 +1057,7 @@ function toggleLove(){
 
 </body>
 </html>
+
 
 
 
