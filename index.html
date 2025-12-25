@@ -63,6 +63,8 @@ body{
   width:360px;
   padding:20px;
   transition:.9s cubic-bezier(.22,1,.36,1);
+  background: transparent !important;
+  box-shadow: none !important;
 }
   
 /* 🎬 BACKGROUND PLASTIC LAYER */
@@ -652,8 +654,13 @@ input{
   line-height:1.7;
   opacity:.9;
 }
-  
 
+    /* ❌ HILANGKAN KOTAK PLAYER UTAMA */
+.player::before,
+.player::after{
+  display:none !important;
+}
+  
 </style>
 </head>
 
@@ -1088,6 +1095,7 @@ function toggleLove(){
 
 </body>
 </html>
+
 
 
 
