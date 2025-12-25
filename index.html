@@ -425,6 +425,7 @@ box-shadow:
 /* ===== PANEL ===== */
 .panel{
   position: relative;
+  background:transparent;
   z-index: 10; /* 🔥 INI FIX UTAMA */
   max-height:0;
   opacity:0;
@@ -517,9 +518,14 @@ input{
 
 /* PLAYLIST */
 .folder{
-  background:#f2f2f2;
-  border-radius:18px;
-  padding:10px;margin-bottom:12px;
+  background:transparent;
+  border-radius:0;
+  padding:0;
+  margin-bottom:12px;
+}
+.song{
+  padding:6px 4px;
+  opacity:.6;
 }
 .song.active{
   font-weight:500;
@@ -541,6 +547,10 @@ input{
 .folder-header{
   display:flex;justify-content:space-between;
   font-size:13px;cursor:pointer;
+ background:none;
+  padding:0;
+  border-radius:0;
+  opacity:.65;
 }
 .folder-actions span{margin-left:8px;opacity:.6;cursor:pointer}
 .songs{
@@ -1082,6 +1092,7 @@ function toggleLove(){
 
 </body>
 </html>
+
 
 
 
