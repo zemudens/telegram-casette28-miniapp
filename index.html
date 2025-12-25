@@ -645,7 +645,7 @@ input{
 
 <div class="player" id="playerWrap">
 
-<div class="cassette" onclick="togglePanel()">
+<div class="panel" onclick="event.stopPropagation()">
 
   <!-- ❤️ LOVE BUTTON -->
   <div class="love-btn" onclick="event.stopPropagation();toggleLove()">
@@ -1057,6 +1057,7 @@ function stopProgress(){
 
 </body>
 </html>
+
 
 
 
