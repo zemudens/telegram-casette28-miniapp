@@ -645,23 +645,23 @@ input{
 
 <div class="player" id="playerWrap">
 
-<div class="panel" onclick="event.stopPropagation()">
+  <!-- 🎞️ CASSETTE (CLICK TO OPEN / CLOSE PANEL) -->
+  <div class="cassette" onclick="togglePanel()">
 
-  <!-- ❤️ LOVE BUTTON -->
-  <div class="love-btn" onclick="event.stopPropagation();toggleLove()">
-    <img src="love.png">
-  </div>
+    <!-- ❤️ LOVE BUTTON -->
+    <div class="love-btn" onclick="event.stopPropagation();toggleLove()">
+      <img src="love.png">
+    </div>
 
-  <span class="shine"></span>
-  <span class="screw tl"></span>
-  <span class="screw tr"></span>
-  <span class="screw bl"></span>
-  <span class="screw br"></span>
+    <span class="shine"></span>
+    <span class="screw tl"></span>
+    <span class="screw tr"></span>
+    <span class="screw bl"></span>
+    <span class="screw br"></span>
 
-  <!-- 🔹 CASSETTE STATUS BADGE -->
-<div class="cassette-status" id="cassetteStatus">●</div>
-<div class="tape-counter" id="tapeCounter">00:00</div>
-  
+    <div class="cassette-status" id="cassetteStatus">●</div>
+    <div class="tape-counter" id="tapeCounter">00:00</div>
+
     <div class="cassette-label">
       <span>SIDE A'M</span>
       <span>CD it XXVIII</span>
@@ -676,7 +676,38 @@ input{
     </div>
   </div>
 
-  <div class="panel">
+  <!-- 📂 PANEL (PLAYLIST + CONTROLS) -->
+  <div class="panel" onclick="event.stopPropagation()">
+
+    <!-- SEARCH -->
+    <div class="search-wrap" id="searchWrap">
+      <input id="searchInput" placeholder="Search in all tapes…">
+    </div>
+
+    <!-- NOW PLAYING -->
+    <div class="now-playing marquee" id="nowPlayingText">
+      <span>—</span>
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="tape-progress">
+      <div class="tape-bar" id="tapeBar"></div>
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="controls">
+      <button class="icon-btn" onclick="toggleSearch()"><img src="search.png"></button>
+      <button class="icon-btn" onclick="prev()"><img src="back.png"></button>
+      <button class="icon-btn" id="playBtn" onclick="togglePlay()"><img src="play.png"></button>
+      <button class="icon-btn" onclick="next()"><img src="next.png"></button>
+      <button class="icon-btn" onclick="shuffle()"><img src="shuffle.png"></button>
+    </div>
+
+    <!-- PLAYLIST -->
+    <div id="playlists"></div>
+
+  </div>
+</div>
 
     <!-- 🔍 SEARCH BAR -->
 <div class="search-wrap" id="searchWrap">
@@ -1057,6 +1088,7 @@ function stopProgress(){
 
 </body>
 </html>
+
 
 
 
