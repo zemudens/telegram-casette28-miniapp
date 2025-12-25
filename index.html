@@ -175,6 +175,7 @@ box-shadow:
 
 /* ===== CASSETTE ===== */
 .cassette{
+  z-index: 5;
   position:relative;
   background:linear-gradient(180deg,rgba(255,255,255,.6),rgba(170,170,170,.35));
   backdrop-filter:blur(6px);
@@ -193,10 +194,14 @@ box-shadow:
   transition:transform 1.2s cubic-bezier(.22,1,.36,1);
 }
 .player.open .cassette{
+  pointer-events: none;
   transform:rotate(-12deg) rotateX(18deg) translateY(18px) scale(1);
 }
 .player.open.settled .cassette{
   transform:rotate(0) rotateX(0) translateY(0) scale(1);
+}
+.player.open .love-btn{
+  pointer-events: auto;
 }
 
   /* ⏱️ TAPE COUNTER */
@@ -425,6 +430,8 @@ box-shadow:
 
 /* ===== PANEL ===== */
 .panel{
+  position: relative;
+  z-index: 10; /* 🔥 INI FIX UTAMA */
   max-height:0;
   opacity:0;
   transform:translateY(-12px);
@@ -1053,6 +1060,7 @@ function stopProgress(){
 
 </body>
 </html>
+
 
 
 
