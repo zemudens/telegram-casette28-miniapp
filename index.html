@@ -719,15 +719,28 @@ input{
 <div id="player" style="display:none"></div>
 
 <script>
-let ytPlayer=null
+let ytPlayer = null
+
 function onYouTubeIframeAPIReady(){
-  ytPlayer=new YT.Player("player",{
-    height:"0",width:"0",
-    playerVars:{autoplay:1,controls:0,rel:0,playsinline:1},
-    events:{onStateChange:e=>{if(e.data===YT.PlayerState.ENDED)next()}}
+  ytPlayer = new YT.Player("player", {
+    height: "0",
+    width: "0",
+    playerVars: {
+      autoplay: 1,
+      controls: 0,
+      rel: 0,
+      playsinline: 1
+    },
+    events: {
+      onStateChange: (e) => {
+        if (e.data === YT.PlayerState.ENDED) {
+          setTimeout(next, 120)
+        }
+      }
+    }
   })
 }
-
+  
 let data = [
   {
     name: "My Playlist",
@@ -791,6 +804,15 @@ searchInput.addEventListener("input", () => {
   render()
 })
 const nowPlayingText = document.getElementById("nowPlayingText")
+
+  function updateNowPlaying(){
+  const song = data[current.p]?.songs[current.s]
+  if(song){
+    nowPlayingText.textContent = song.title
+  }else{
+    nowPlayingText.textContent = "—"
+  }
+}
 
 function save(){
   localStorage.setItem("cassettePlaylists",JSON.stringify(data))
@@ -982,13 +1004,21 @@ function toggleFolder(i){
   folders[i]?.classList.toggle("open", data[i].open)
 }
 function next(){
-  if(!data[current.p].songs.length)return
-  tapeBar.style.width="0%"
-  current.s=(current.s+1)%data[current.p].songs.length
-  loadedId=null
+  if(!data[current.p].songs.length) return
+
+  tapeBar.style.width = "0%"
+  stopProgress()
+
+  current.s = (current.s + 1) % data[current.p].songs.length
+  loadedId = null
+
   updateNowPlaying()
-  render() // 🔥 TAMBAH
-  togglePlay()
+  render()
+
+  // ⏱️ kasih delay kecil biar YouTube siap
+  setTimeout(()=>{
+    togglePlay()
+  }, 120)
 }
 function prev(){
   if(!data[current.p].songs.length)return
@@ -1069,6 +1099,7 @@ function stopProgress(){
 
 </body>
 </html>
+
 
 
 
