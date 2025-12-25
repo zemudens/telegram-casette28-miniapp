@@ -64,31 +64,6 @@ body{
   padding:20px;
   transition:.9s cubic-bezier(.22,1,.36,1);
 }
-
-/* ===== SEARCH BAR ===== */
-.search-wrap{
-  max-height:0;
-  opacity:0;
-  overflow:hidden;
-  transform:translateY(-6px);
-  transition:
-    max-height .4s ease,
-    opacity .3s ease,
-    transform .3s ease;
-}
-
-.search-wrap.open{
-  max-height:60px;
-  opacity:1;
-  transform:translateY(0);
-}
-
-.search-wrap input{
-  width:100%;
-  padding:10px 14px;
-  border-radius:16px;
-  border:1px solid rgba(0,0,0,.15);
-}
   
 /* 🎬 BACKGROUND PLASTIC LAYER */
 .player::before{
@@ -582,35 +557,6 @@ input{
   font-size:12px;opacity:.55;
 }
 
-/* ❤️ LOVE BUTTON */
-.love-btn{
-  position:absolute;
-  right:-18px;
-  top:50%;
-  transform:translateY(-50%);
-  width:34px;
-  height:34px;
-  border-radius:50%;
-  background:rgba(255,255,255,.75);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  box-shadow:0 6px 18px rgba(0,0,0,.25);
-  animation:heartBeat 1.8s ease-in-out infinite;
-  z-index:6;
-}
-
-.love-btn img{
-  width:18px;
-  height:18px;
-}
-
-@keyframes heartBeat{
-  0%,100%{transform:translateY(-50%) scale(1)}
-  50%{transform:translateY(-50%) scale(1.12)}
-}
-
 /* 💌 LOVE LETTER OVERLAY */
 .love-overlay{
   position:fixed;
@@ -659,6 +605,27 @@ input{
   opacity:.85;
 }
 
+  /* ❤️ HEARTBEAT ANIMATION */
+@keyframes heartBeat {
+  0%   { transform:scale(1); }
+  14%  { transform:scale(1.18); }
+  28%  { transform:scale(1); }
+  42%  { transform:scale(1.12); }
+  70%  { transform:scale(1); }
+  100% { transform:scale(1); }
+}
+
+/* idle heartbeat */
+.icon-btn.love img{
+  animation: heartBeat 2.2s ease-in-out infinite;
+  transform-origin:center;
+}
+
+/* stronger heartbeat when active */
+.icon-btn.love.active img{
+  animation: heartBeat 1.2s ease-in-out infinite;
+}
+
 </style>
 </head>
 
@@ -668,11 +635,6 @@ input{
 
   <!-- 🎞️ CASSETTE (CLICK TO OPEN / CLOSE PANEL) -->
   <div class="cassette" onclick="togglePanel()">
-
-    <!-- ❤️ LOVE BUTTON -->
-    <div class="love-btn" onclick="event.stopPropagation();toggleLove()">
-      <img src="love.png">
-    </div>
 
     <span class="shine"></span>
     <span class="screw tl"></span>
@@ -700,11 +662,6 @@ input{
   <!-- 📂 PANEL (PLAYLIST + CONTROLS) -->
   <div class="panel" onclick="event.stopPropagation()">
 
-    <!-- SEARCH -->
-    <div class="search-wrap" id="searchWrap">
-      <input id="searchInput" placeholder="Search in all tapes…">
-    </div>
-
     <!-- NOW PLAYING -->
     <div class="now-playing marquee" id="nowPlayingText">
       <span>—</span>
@@ -720,13 +677,15 @@ input{
     </div>
 
     <!-- CONTROLS -->
-    <div class="controls">
-      <button class="icon-btn" onclick="toggleSearch()"><img src="search.png"></button>
-      <button class="icon-btn" onclick="prev()"><img src="back.png"></button>
-      <button class="icon-btn" id="playBtn" onclick="togglePlay()"><img src="play.png"></button>
-      <button class="icon-btn" onclick="next()"><img src="next.png"></button>
-      <button class="icon-btn" onclick="shuffle()"><img src="shuffle.png"></button>
-    </div>
+<div class="controls">
+  <button class="icon-btn" onclick="prev()"><img src="back.png"></button>
+  <button class="icon-btn" id="playBtn" onclick="togglePlay()"><img src="play.png"></button>
+  <button class="icon-btn" onclick="next()"><img src="next.png"></button>
+  <button class="icon-btn" onclick="shuffle()"><img src="shuffle.png"></button>
+<button class="icon-btn love" onclick="toggleLove()">
+  <img src="love.png">
+</button>
+</div>
 
     <!-- PLAYLIST -->
     <div id="playlists"></div>
@@ -837,10 +796,6 @@ const cassette=document.querySelector(".cassette")
 const cassetteStatus = document.getElementById("cassetteStatus")
 const tapeCounter = document.getElementById("tapeCounter")
 const playerWrap=document.getElementById("playerWrap")
-const searchInput = document.getElementById("searchInput")
-searchInput.addEventListener("input", () => {
-  render()
-})
 const nowPlayingText = document.getElementById("nowPlayingText")
 
 function updateNowPlaying(){
@@ -876,33 +831,6 @@ function togglePanel(){
     },550)
   }
 }
-
-function toggleSearch(){
-  const w = document.getElementById("searchWrap")
-  w.classList.toggle("open")
-
-  if(w.classList.contains("open")){
-    searchInput.value=""
-    setTimeout(()=>searchInput.focus(),150)
-    playerWrap.classList.add("searching")
-  }else{
-    searchInput.value=""
-    playerWrap.classList.remove("searching")
-    render()
-  }
-}
-
-document.addEventListener("keydown", e => {
-  if(e.key !== "Escape") return
-
-  const searchWrap = document.getElementById("searchWrap")
-
-  if(searchWrap?.classList.contains("open")){
-    searchWrap.classList.remove("open")
-    searchInput.value = ""
-    render()
-  }
-})
 
 function extractId(u){
   if(u.includes("youtu.be/"))return u.split("youtu.be/")[1].split("?")[0]
@@ -984,58 +912,43 @@ function playSong(p, s){
 function render(){
   playlistsEl.innerHTML=""
 
-  const q = searchInput?.value.toLowerCase() || ""
-  const searching = q.length > 0
-
   data.forEach((pl,pi)=>{
-    if(searching){
-  const hasMatch = pl.songs.some(s =>
-    s.title.toLowerCase().includes(q)
-  )
-  if(!hasMatch) return
-}
     const box=document.createElement("div")
-box.className =
-  "folder" + (pl.open ? " open" : "")
-box.innerHTML = `
-  <div class="folder-header">
-    <span>${pl.name}</span>
-  </div>
-  <div class="songs"></div>
-`
+    box.className = "folder" + (pl.open ? " open" : "")
+    box.innerHTML = `
+      <div class="folder-header">
+        <span>${pl.name}</span>
+      </div>
+      <div class="songs"></div>
+    `
 
-const header = box.querySelector(".folder-header")
-header.onclick = (e) => {
-  e.stopPropagation()
-  toggleFolder(pi)
-}
+    const header = box.querySelector(".folder-header")
+    header.onclick = (e) => {
+      e.stopPropagation()
+      toggleFolder(pi)
+    }
 
-    const list=box.querySelector(".songs")
+    const list = box.querySelector(".songs")
 
-pl.songs.forEach((s,si)=>{
-  if(!s.title.toLowerCase().includes(q)) return
+    pl.songs.forEach((s,si)=>{
+      const isActive =
+        current.p === pi && current.s === si
 
-  const isActive =
-    current.p === pi && current.s === si
+      const row = document.createElement("div")
+      row.className = "song" + (isActive ? " active" : "")
 
-const row = document.createElement("div")
-row.className = "song" + (isActive ? " active" : "")
+      row.onclick = (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        playSong(pi, si)
+      }
 
-row.onclick = (e) => {
-  e.preventDefault()
-  e.stopPropagation()
-  playSong(pi, si)
-}
+      row.innerHTML = `<span>${s.title}</span>`
+      list.appendChild(row)
+    })
 
-row.innerHTML = `
-  <span>${s.title}</span>
-`
-
-  list.appendChild(row)
-})
-
-  playlistsEl.appendChild(box)
-})
+    playlistsEl.appendChild(box)
+  })
 }
 render()
 loadPlaylist()  
@@ -1121,11 +1034,12 @@ function stopProgress(){
   tapeCounter.textContent = "00:00"
 }
 
-  function toggleLove(){
-  document
-    .getElementById("loveOverlay")
-    .classList
-    .toggle("open")
+function toggleLove(){
+  const overlay = document.getElementById("loveOverlay")
+  const loveBtn = document.querySelector(".icon-btn.love")
+
+  overlay.classList.toggle("open")
+  loveBtn.classList.toggle("active")
 }
   
 </script>
@@ -1144,6 +1058,7 @@ function stopProgress(){
 
 </body>
 </html>
+
 
 
 
