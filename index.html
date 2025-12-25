@@ -578,6 +578,9 @@ input{
 
 /* 💌 LOVE LETTER OVERLAY */
 .love-overlay{
+  transition:
+  opacity .4s ease,
+  backdrop-filter .4s ease;
   position:fixed;
   inset:0;
   background:
@@ -603,8 +606,11 @@ input{
 
 /* 💭 FLOATING LOVE LETTER (NO BOX) */
 .love-letter{
+  transition:transform .4s ease, opacity .4s ease;
   width:300px;
   padding:24px 20px;
+  opacity:0;
+  transform:translateY(20px);
 
   background:none;
   border-radius:0;
@@ -1082,6 +1088,7 @@ function toggleLove(){
 
 </body>
 </html>
+
 
 
 
