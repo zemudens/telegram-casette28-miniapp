@@ -194,7 +194,7 @@ box-shadow:
   transition:transform 1.2s cubic-bezier(.22,1,.36,1);
 }
 .player.open .cassette{
-  pointer-events: none;
+  pointer-events: auto;
   transform:rotate(-12deg) rotateX(18deg) translateY(18px) scale(1);
 }
 .player.open.settled .cassette{
@@ -798,11 +798,16 @@ function save(){
 }
 
 function togglePanel(){
-  playerWrap.classList.toggle("open")
-  if(playerWrap.classList.contains("open")){
-    setTimeout(()=>playerWrap.classList.add("settled"),550)
-  }else{
+  const isOpen = playerWrap.classList.contains("open")
+
+  if(isOpen){
     playerWrap.classList.remove("settled")
+    playerWrap.classList.remove("open")
+  }else{
+    playerWrap.classList.add("open")
+    setTimeout(()=>{
+      playerWrap.classList.add("settled")
+    },550)
   }
 }
 
@@ -1064,6 +1069,7 @@ function stopProgress(){
 
 </body>
 </html>
+
 
 
 
