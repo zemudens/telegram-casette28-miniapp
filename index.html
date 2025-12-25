@@ -776,6 +776,7 @@ You brought me back to life.`
 async function loadPlaylist(){
   const cloudData = await loadFromCloud()
   if(cloudData){
+    cloudData[0].name = "Cassette No. 28: Play & Remember."
     data = cloudData
     render()
   }
@@ -1057,6 +1058,7 @@ function toggleLove(){
 
 </body>
 </html>
+
 
 
 
