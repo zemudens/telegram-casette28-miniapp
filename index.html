@@ -629,11 +629,12 @@ input{
   pointer-events:auto;
 }
 
-/* 💭 FLOATING LOVE LETTER (NO BOX) */
+/* 💭 FLOATING LOVE LETTER (SCROLLABLE, NO BOX) */
 .love-letter{
   transition:transform .4s ease, opacity .4s ease;
-  width:300px;
-  padding:24px 20px;
+  width:320px;
+  max-height:60vh;          /* 👈 batas tinggi */
+  padding:24px 18px 24px;
   opacity:0;
   transform:translateY(20px);
 
@@ -641,11 +642,26 @@ input{
   border-radius:0;
   box-shadow:none;
 
-  color:rgba(255,255,255,.92);
+  color:rgba(255,255,255,.95);
   text-shadow:0 2px 6px rgba(0,0,0,.45);
 
-  text-align:center;
-  transform:translateY(20px);
+  text-align:left;          /* 👈 lebih intimate */
+  overflow-y:auto;          /* 👈 SCROLL */
+  overscroll-behavior:contain;
+
+  scrollbar-width:thin;
+}
+
+/* scrollbar aesthetic */
+.love-letter::-webkit-scrollbar{
+  width:6px;
+}
+.love-letter::-webkit-scrollbar-thumb{
+  background:rgba(255,255,255,.35);
+  border-radius:999px;
+}
+.love-letter::-webkit-scrollbar-track{
+  background:transparent;
 }
 
 /* ✨ ANIMATION ON OPEN */
@@ -1106,18 +1122,75 @@ function toggleLove(){
 
 <!-- 💌 LOVE LETTER -->
 <div class="love-overlay" id="loveOverlay" onclick="toggleLove()">
-  <div class="love-letter" onclick="event.stopPropagation()">
-    <h3>LOVE LETTER</h3>
-    <p>
-      this space is yours.<br>
-      later you can fill it with words,<br>
-      memories, or promises.
-    </p>
-  </div>
+<div class="love-letter" onclick="event.stopPropagation()">
+  <h3>LOVE LETTER</h3>
+
+  <p>
+    I want to tell you the truth.<br>
+    I don’t love you only because you are attractive.
+  </p>
+
+  <p>
+    I love you for the reasons that live quietly in my heart.
+  </p>
+
+  <p>
+    I fell in love with the simplest things about you:<br>
+    the way you reached out and asked me to be your friend,<br>
+    the way you welcomed every word I shared with you.
+  </p>
+
+  <p>
+    I fell in love when you spoke to me,<br>
+    when your voice felt like a place I wanted to stay.
+  </p>
+
+  <p>
+    I fell in love when you touched my heart<br>
+    without ever trying to take it<br>
+    just by being yourself.
+  </p>
+
+  <p>
+    I fell in love with your beauty,<br>
+    with your care,<br>
+    with the sweetness in the way you love.
+  </p>
+
+  <p>
+    I fell in love when you rested comfortably in my arms,<br>
+    as if you belonged there,<br>
+    as if we had always known each other.
+  </p>
+
+  <p>
+    And I keep falling for you<br>
+    again and again<br>
+    and nothing in this world can erase that truth.
+  </p>
+
+  <p>
+    You should know this:<br>
+    in my life, the safest, warmest place I have ever known<br>
+    exists because you are in it.
+  </p>
+
+  <p>
+    <strong>I love you. Always.</strong>
+  </p>
+
+  <p>
+    I am here.<br>
+    I will not leave.<br>
+    No matter how far I go,<br>
+    I will always run back to you.<br>
+    <strong>Always.</strong>
+  </p>
 </div>
 
 </body>
 </html>
+
 
 
 
