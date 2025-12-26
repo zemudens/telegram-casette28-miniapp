@@ -189,15 +189,50 @@ box-shadow:
   transform-origin:center;
   transition:transform 1.2s cubic-bezier(.22,1,.36,1);
 }
-.player.open .cassette{
-  pointer-events: auto;
-  transform:rotate(-12deg) rotateX(18deg) translateY(18px) scale(1);
-}
 .player.open.settled .cassette{
   transform:rotate(0) rotateX(0) translateY(0) scale(1);
 }
 .player.open .love-btn{
   pointer-events: auto;
+}
+
+  /* 📼 CASSETTE PAGES (SWIPE SYSTEM) */
+.cassette-pages{
+  display:flex;
+  width:200%;
+  height:100%;
+  transition:transform .55s cubic-bezier(.22,1,.36,1);
+}
+
+.cassette-page{
+  width:50%;
+  padding:18px;
+  box-sizing:border-box;
+}
+
+/* 👉 STATE */
+.cassette.show-playlist .cassette-pages{
+  transform:translateX(-50%);
+}
+
+/* 📂 PLAYLIST PAGE */
+.cassette-page.playlist{
+  overflow:hidden;
+}
+
+.playlist-inner{
+  max-height:210px;
+  overflow-y:auto;
+  padding-right:6px;
+}
+
+/* scrollbar */
+.playlist-inner::-webkit-scrollbar{
+  width:5px;
+}
+.playlist-inner::-webkit-scrollbar-thumb{
+  background:rgba(0,0,0,.25);
+  border-radius:999px;
 }
 
   /* ⏱️ TAPE COUNTER */
@@ -422,23 +457,6 @@ box-shadow:
   box-shadow:
     inset 0 0 8px rgba(0,0,0,.45),
     0 0 6px rgba(255,180,90,.25);
-}
-
-/* ===== PANEL ===== */
-.panel{
-  position: relative;
-  z-index: 10; /* 🔥 INI FIX UTAMA */
-  max-height:0;
-  opacity:0;
-  transform:translateY(-12px);
-  transition:.8s cubic-bezier(.22,1,.36,1);
-  pointer-events:none;
-}
-.player.open .panel{
-  max-height:900px;
-  opacity:1;
-  transform:translateY(0);
-  pointer-events:auto;
 }
 
 .input{display:flex;gap:8px;margin-bottom:14px}
@@ -668,34 +686,46 @@ input{
 
 <div class="player" id="playerWrap">
 
-  <!-- 🎞️ CASSETTE (CLICK TO OPEN / CLOSE PANEL) -->
-  <div class="cassette" onclick="togglePanel()">
+<div class="cassette" id="cassette">
 
-    <span class="shine"></span>
-    <span class="screw tl"></span>
-    <span class="screw tr"></span>
-    <span class="screw bl"></span>
-    <span class="screw br"></span>
+  <div class="cassette-pages">
 
-    <div class="cassette-status" id="cassetteStatus">●</div>
-    <div class="tape-counter" id="tapeCounter">00:00</div>
+    <!-- 📼 PAGE 1 : CASSETTE -->
+    <div class="cassette-page front">
 
-    <div class="cassette-label">
-      <span>SIDE A'M</span>
-      <span>CD it XXVIII</span>
-      <span>28</span>
+      <span class="shine"></span>
+      <span class="screw tl"></span>
+      <span class="screw tr"></span>
+      <span class="screw bl"></span>
+      <span class="screw br"></span>
+
+      <div class="cassette-status" id="cassetteStatus">●</div>
+      <div class="tape-counter" id="tapeCounter">00:00</div>
+
+      <div class="cassette-label">
+        <span>SIDE A'M</span>
+        <span>CD it XXVIII</span>
+        <span>28</span>
+      </div>
+
+      <div class="window">
+        <div class="reels">
+          <div class="reel" id="reelL"><span class="hub"></span></div>
+          <div class="reel" id="reelR"><span class="hub"></span></div>
+        </div>
+      </div>
+
     </div>
 
-    <div class="window">
-      <div class="reels">
-        <div class="reel" id="reelL"><span class="hub"></span></div>
-        <div class="reel" id="reelR"><span class="hub"></span></div>
+    <!-- 📂 PAGE 2 : PLAYLIST -->
+    <div class="cassette-page playlist">
+      <div class="playlist-inner">
+        <div id="playlists"></div>
       </div>
     </div>
-  </div>
 
-  <!-- 📂 PANEL (PLAYLIST + CONTROLS) -->
-  <div class="panel" onclick="event.stopPropagation()">
+  </div>
+</div>
 
     <!-- NOW PLAYING -->
     <div class="now-playing marquee" id="nowPlayingText">
@@ -722,9 +752,6 @@ input{
   <button class="icon-btn" onclick="next()"><img src="next.png"></button>
   <button class="icon-btn" onclick="shuffle()"><img src="shuffle.png"></button>
 </div>
-
-    <!-- PLAYLIST -->
-    <div id="playlists"></div>
 
   </div>
 </div>
@@ -1078,6 +1105,51 @@ function toggleLove(){
   overlay.classList.toggle("open")
   loveBtn.classList.toggle("active")
 }
+    
+    /* ===== SWIPE CASSETTE ===== */
+let startX = 0
+let currentView = "cassette"
+let isScrollingPlaylist = false
+const SWIPE_THRESHOLD = 70
+
+const cassetteEl = document.getElementById("cassette")
+const playlistInner = document.querySelector(".playlist-inner")
+
+playlistInner.addEventListener("touchstart", ()=> isScrollingPlaylist = true)
+playlistInner.addEventListener("touchend", ()=>{
+  setTimeout(()=> isScrollingPlaylist = false, 80)
+})
+
+function onSwipe(dx){
+  if(isScrollingPlaylist) return
+  if(!playerWrap.classList.contains("settled")) return
+
+  if(dx < -SWIPE_THRESHOLD && currentView === "cassette"){
+    cassetteEl.classList.add("show-playlist")
+    currentView = "playlist"
+  }else if(dx > SWIPE_THRESHOLD && currentView === "playlist"){
+    cassetteEl.classList.remove("show-playlist")
+    currentView = "cassette"
+  }
+}
+
+cassetteEl.addEventListener("touchstart",e=>{
+  startX = e.touches[0].clientX
+})
+cassetteEl.addEventListener("touchend",e=>{
+  onSwipe(e.changedTouches[0].clientX - startX)
+})
+
+let mouseDown=false
+cassetteEl.addEventListener("mousedown",e=>{
+  mouseDown=true
+  startX = e.clientX
+})
+window.addEventListener("mouseup",e=>{
+  if(!mouseDown) return
+  mouseDown=false
+  onSwipe(e.clientX - startX)
+})
   
 </script>
 
@@ -1095,6 +1167,7 @@ function toggleLove(){
 
 </body>
 </html>
+
 
 
 
