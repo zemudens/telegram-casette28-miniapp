@@ -160,24 +160,26 @@ box-shadow:
   animation: heartBeat 1.3s ease-in-out infinite;
 }
 
-/* ❤️ LOVE 28 TEXT */
+/* ❤️ LOVE 28 TEXT – DEFAULT (HITAM) */
 .love-text{
   font-family: "Times New Roman", serif;
   font-size:15px;
   letter-spacing:.18em;
-  color:#ffb6c1;
+  color:#111; /* 🖤 hitam */
   text-shadow:
-    0 0 6px rgba(255,182,193,.55),
-    0 0 12px rgba(255,182,193,.25);
+    0 0 4px rgba(0,0,0,.35);
   user-select:none;
-  transition:text-shadow .3s ease;
+  transition:
+    color .25s ease,
+    text-shadow .25s ease;
 }
 
-/* ✨ GLOW SAAT ACTIVE */
+/* 🤍 SAAT ACTIVE (DIKLIK) */
 .icon-btn.love.active .love-text{
+  color:#fff; /* putih */
   text-shadow:
-    0 0 10px rgba(255,182,193,.85),
-    0 0 22px rgba(255,182,193,.55);
+    0 0 8px rgba(255,255,255,.85),
+    0 0 18px rgba(255,255,255,.55);
 }
 
   /* 🔁 PLAY BUTTON PULSE */
@@ -1116,4 +1118,5 @@ function toggleLove(){
 
 </body>
 </html>
+
 
