@@ -150,13 +150,34 @@ box-shadow:
   100% { transform:scale(1); }
 }
 
-/* ❤️ HEARTBEAT FIX (PASTI GERAK) */
+/* ❤️ LOVE 28 BUTTON */
 .icon-btn.love{
-  animation: heartBeat 2.2s ease-in-out infinite;
+  animation: heartBeat 2.4s ease-in-out infinite;
 }
 
+/* ❤️ ACTIVE (LOVE LETTER OPEN) */
 .icon-btn.love.active{
-  animation: heartBeat 1.2s ease-in-out infinite;
+  animation: heartBeat 1.3s ease-in-out infinite;
+}
+
+/* ❤️ LOVE 28 TEXT */
+.love-text{
+  font-family: "Times New Roman", serif;
+  font-size:15px;
+  letter-spacing:.18em;
+  color:#ffb6c1;
+  text-shadow:
+    0 0 6px rgba(255,182,193,.55),
+    0 0 12px rgba(255,182,193,.25);
+  user-select:none;
+  transition:text-shadow .3s ease;
+}
+
+/* ✨ GLOW SAAT ACTIVE */
+.icon-btn.love.active .love-text{
+  text-shadow:
+    0 0 10px rgba(255,182,193,.85),
+    0 0 22px rgba(255,182,193,.55);
 }
 
   /* 🔁 PLAY BUTTON PULSE */
@@ -713,9 +734,9 @@ input{
 
     <!-- CONTROLS -->
 <div class="controls">
-  <button class="icon-btn love" onclick="toggleLove()">
-    <img src="love.png">
-  </button>
+<button class="icon-btn love love-28" onclick="toggleLove()">
+  <span class="love-text">28</span>
+</button>
 
   <button class="icon-btn" onclick="prev()"><img src="back.png"></button>
   <button class="icon-btn" id="playBtn" onclick="togglePlay()"><img src="play.png"></button>
@@ -1095,3 +1116,4 @@ function toggleLove(){
 
 </body>
 </html>
+
