@@ -585,11 +585,14 @@ input{
 }
 .folder-actions span{margin-left:8px;opacity:.6;cursor:pointer}
 .songs{
-  padding:6px 10px;
-  border-radius:12px;
-  background:rgba(255,255,255,.55); /* soft, semi-transparan */
-}
+  display:none;
+  margin-top:6px;
 
+  max-height:160px;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  padding-right:4px;
+}
 .folder.open .songs{
   display:block;
 }
@@ -1204,6 +1207,7 @@ function toggleLove(){
 
 </body>
 </html>
+
 
 
 
