@@ -542,9 +542,10 @@ input{
 
 /* PLAYLIST */
 .folder{
-  background:#f2f2f2;
-  border-radius:18px;
-  padding:10px;margin-bottom:12px;
+  background:none !important;   /* ❌ hilang background */
+  border-radius:0;
+  padding:6px 0 10px;
+  margin-bottom:12px;
 }
 .song.active{
   font-weight:500;
@@ -564,18 +565,29 @@ input{
   opacity:.6;
 }
 .folder-header{
-  display:flex;justify-content:space-between;
-  font-size:13px;cursor:pointer;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:13px;
+  cursor:pointer;
+  padding:6px 0;
+  background:none !important;
+}
+
+.folder-header span{
+  background:none !important;
+  color:#444;
+  font-weight:500;
+  letter-spacing:.06em;
+  text-align:center;
+  font-style:italic;
+  opacity:.85;
 }
 .folder-actions span{margin-left:8px;opacity:.6;cursor:pointer}
 .songs{
-  display:none;
-  margin-top:6px;
-
-  max-height:160px;        /* tinggi area lagu */
-  overflow-y:auto;         /* aktifkan scroll */
-  overscroll-behavior:contain;
-  padding-right:4px;       /* ruang scrollbar */
+  padding:6px 10px;
+  border-radius:12px;
+  background:rgba(255,255,255,.55); /* soft, semi-transparan */
 }
 
 .folder.open .songs{
@@ -1192,6 +1204,7 @@ function toggleLove(){
 
 </body>
 </html>
+
 
 
 
